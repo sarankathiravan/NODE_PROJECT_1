@@ -1,21 +1,18 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
 const app = express();
-app.get("/", (request, response) => {
-  response.send("OK");
+const userRoute = require("./routes/user.routes");
+
+// Middleware to parse JSON body
+app.use(express.json());
+
+app.listen(3000, () => {
+    console.log("Server is running on port 3000");
 });
 
-mongoose
-  .connect("mongodb://0.0.0.0:27017/testdb")
-  .then(() => {
-    console.log("MongoDB is connected");
- 
-  })
-  .catch((error) => {
-    console.log("MongoDB is not connected ");
-    console.error(error);
-  });
-   app.listen(8080, () => {
-      console.log("Server is running on port 8080");
-    });
+mongoose.connect("mongodb://localhost:27017/mydatabase")
+
+app.get("/", (req, res) => {
+    res.send("Hello World");
+});
+app.use("/user", userRoute);
